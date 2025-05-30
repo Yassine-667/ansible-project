@@ -1,0 +1,37 @@
+all:
+  children:
+    webservers:
+      hosts:
+        web01:
+          ansible_host: 192.168.1.10
+          custom_log_paths:
+            - /var/log/nginx/*.log
+            - /var/log/apache2/*.log
+            - /app/logs/*.log
+        web02:
+          ansible_host: 192.168.1.11
+          custom_log_paths:
+            - /var/log/nginx/*.log
+            - /opt/myapp/logs/*.log
+    
+    databases:
+      hosts:
+        db01:
+          ansible_host: 192.168.1.20
+          custom_log_paths:
+            - /var/log/mysql/*.log
+            - /var/log/postgresql/*.log
+        db02:
+          ansible_host: 192.168.1.21
+          custom_log_paths:
+            - /var/log/mongodb/*.log
+            - /data/logs/*.log
+    
+    docker_hosts:
+      hosts:
+        docker01:
+          ansible_host: 192.168.1.30
+          custom_log_paths:
+            - /var/lib/docker/containers/*/*-json.log
+            - /opt/docker-apps/*/logs/*.log
+          has_docker: true
