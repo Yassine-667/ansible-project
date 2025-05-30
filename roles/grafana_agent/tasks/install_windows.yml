@@ -19,3 +19,9 @@
     --config.file="C:\GrafanaAgent\grafana-agent.yaml"
     --service.name="GrafanaAgent"
     --service.install
+
+- name: Start Grafana Agent service
+  win_service:
+    name: GrafanaAgent
+    state: started
+    start_mode: auto
