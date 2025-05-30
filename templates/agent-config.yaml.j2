@@ -1,0 +1,21 @@
+server:
+  log_level: info
+
+metrics:
+  wal_directory: /tmp/wal
+  global:
+    scrape_interval: 15s
+
+logs:
+  configs:
+    - name: default
+      clients:
+        - url: "{{ loki_url }}"
+      positions:
+        filename: /tmp/positions.yaml
+      static_configs:
+        - targets:
+            - localhost
+          labels:
+            job: varlogs
+            __path__: "{{ log_path }}"

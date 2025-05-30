@@ -1,0 +1,14 @@
+server:
+  log_level: info
+
+logs:
+  configs:
+    - name: windows
+      clients:
+        - url: "{{ loki_url }}"
+      positions:
+        filename: C:\GrafanaAgent\positions.yaml
+      static_configs:
+        - labels:
+            job: winlogs
+            __path__: "{{ log_path_windows }}"

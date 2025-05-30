@@ -1,0 +1,36 @@
+- name: Download Grafana Agent binary
+  get_url:
+    url: "https://github.com/grafana/agent/releases/download/{{ grafana_agent_version }}/grafana-agent-linux-amd64.zip"
+    dest: /tmp/grafana-agent.zip
+
+- name: Unzip agent
+  unarchive:
+    src: /tmp/grafana-agent.zip
+    dest: /usr/local/bin/
+    remote_src: yes
+
+- name: Copy config
+  template:
+    src: agent-config.yaml.j2
+    dest: /etc/grafana-agent.yaml
+
+- name: Add systemd service
+  copy:
+    dest: /etc/systemd/system/grafana-agent.service
+    content: |
+      [Unit]
+      Description=Grafana Agent
+      After=network.target
+
+      [Service]
+      ExecStart=/usr/local/bin/grafana-agent --config.file=/etc/grafana-agent.yaml
+      Restart=always
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Enable & start agent
+  systemd:
+    name: grafana-agent
+    enabled: true
+    state: started

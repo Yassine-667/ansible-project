@@ -1,0 +1,21 @@
+- name: Download Grafana Agent
+  win_get_url:
+    url: "https://github.com/grafana/agent/releases/download/{{ grafana_agent_version }}/grafana-agent-windows-amd64.zip"
+    dest: C:\grafana-agent.zip
+
+- name: Unzip
+  win_unzip:
+    src: C:\grafana-agent.zip
+    dest: C:\GrafanaAgent
+
+- name: Copy config
+  win_template:
+    src: agent-config-windows.yaml.j2
+    dest: C:\GrafanaAgent\grafana-agent.yaml
+
+- name: Register agent as service
+  win_shell: >
+    C:\GrafanaAgent\grafana-agent.exe
+    --config.file="C:\GrafanaAgent\grafana-agent.yaml"
+    --service.name="GrafanaAgent"
+    --service.install
