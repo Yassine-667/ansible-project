@@ -1,11 +1,6 @@
 server:
   log_level: info
 
-metrics:
-  wal_directory: /tmp/wal
-  global:
-    scrape_interval: 15s
-
 logs:
   configs:
     - name: default
@@ -14,8 +9,18 @@ logs:
       positions:
         filename: /tmp/positions.yaml
       static_configs:
+{% if custom_log_paths is defined %}
+{% for log_path in custom_log_paths %}
         - targets:
             - localhost
           labels:
-            job: varlogs
+            job: "{{ inventory_hostname }}"
             __path__: "{{ log_path }}"
+{% endfor %}
+{% else %}
+        - targets:
+            - localhost
+          labels:
+            job: "{{ inventory_hostname }}"
+            __path__: "{{ log_path }}"
+{% endif %}

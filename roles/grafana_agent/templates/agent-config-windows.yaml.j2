@@ -9,6 +9,14 @@ logs:
       positions:
         filename: C:\GrafanaAgent\positions.yaml
       static_configs:
+{% if custom_log_paths is defined %}
+{% for log_path in custom_log_paths %}
         - labels:
-            job: winlogs
+            job: "{{ inventory_hostname }}"
+            __path__: "{{ log_path }}"
+{% endfor %}
+{% else %}
+        - labels:
+            job: "{{ inventory_hostname }}"
             __path__: "{{ log_path_windows }}"
+{% endif %}
