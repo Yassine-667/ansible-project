@@ -1,5 +1,5 @@
 - name: Deploy Grafana Agent
   hosts: all
-  become: yes
+  gather_facts: yes
   roles:
     - grafana_agent

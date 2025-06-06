@@ -1,4 +1,4 @@
-grafana_agent_version: "v0.40.0"
-loki_url: "http://your-loki-server:3100/loki/api/v1/push"
+grafana_agent_version: "v0.40.3"
+loki_url: "http://localhost:3100/loki/api/v1/push"
 log_path: "/var/log/*.log"  # Default value for Linux
-log_path_windows: "C:\Windows\System32\LogFiles\*.log"  # Default value for Windows
+log_path_windows: "C:\\Windows\\System32\\LogFiles\\*.log"  # Default value for Windows
